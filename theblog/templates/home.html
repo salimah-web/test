@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Welcome, {{user.username}}</h1>
+<h2>Articles</h2>
+    {% for post in object_list %}
+    
+    <li><a href="{% url 'details' post.pk %}">{{post.title}}</a>-<a href="{% url 'Article-category' post.category|slugify %}">{{post.category}}</a>
+         <br>by {{post.author}}- {{post.post_date}}
+    <br>{{post.snippet}}
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}

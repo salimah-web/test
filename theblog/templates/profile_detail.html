@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{post.author}} Profile</h1>
+
+
+{% if user.profile.profile_pic %}
+<img src='{{ user.profile.profile_pic.url }}' width="150" height='150'>
+{% endif %}
+<hr>
+<p>{{user.profile.bio}}</p>
+<br>
+
+<a href="{% url 'home' %}" class="btn btn-info">back</a>
+{% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+        <a href="{% url 'update' post.pk %}" class="btn btn-info"> edit</a>
+        
+    <hr>
+    <a href="{% url 'profile_form' %}" class="btn btn-primary"> Add profile</a>
+    {% endif %}
+{% endif %}
+
+<br><br>
+<hr>
+<br>
+{% endblock %}

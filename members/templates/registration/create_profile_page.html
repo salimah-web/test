@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+    <h1>Create profile....</h1>
+    <div class="form-group">
+        <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+            {{form.as_p}}
+            <button class="btn btn-secondary">Upload profile</button>
+        </form>
+    </div>
+{% else %}
+You cannot view this page, login <a href="{% url 'login'  %}">here</a> to access the page
+
+{% endif %}
+
+{% endblock %}

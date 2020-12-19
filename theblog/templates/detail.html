@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>{{post.title}}</h1>
+
+<small>By: {{post.author}} </small>
+{% if post.header_image %}
+<img src='{{ post.header_image.url }}' width="150" height='150'>
+{% endif %}
+<hr>
+<p>{{post.body|safe}}</p>
+<br>
+
+<a href="{% url 'home' %}" class="btn btn-info">back</a>
+{% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+        <a href="{% url 'update' post.pk %}" class="btn btn-info"> edit</a>
+        <a href="{% url 'delete' post.pk %}" class="btn btn-danger"> delete</a>
+    
+    {% endif %}
+{% endif %}
+
+<br><br>
+<hr>
+<br>
+<form action='{% url "like"  post.pk %}' method="POST">
+    {% csrf_token %}
+    
+    {% if user.is_authenticated %}
+
+    {% if liked %}
+    <button type='submit' name="post_id" value="{{post.id}}" class="btn btn-danger btn-sm">Unlike</button>
+
+    {% else %}
+    <button type='submit' name="post_id" value="{{post.id}}" class="btn btn-primary btn-sm">Like</button>
+    {% endif %}
+    {% else %}
+    <small><a href="{% url 'login' %}" >Login</a> to like</small>
+    {% endif %}
+    -{{total_likes}} Likes
+
+    <br><br>
+    <small class="text-muted"><a href="{% url 'profile_page' post.author.profile.pk %}">view profile</a></small>
+<br>
+<h1>Comments..</h1>
+{% if post.comments.all %}
+    {% for i in post.comments.all %}
+
+        <strong>{{i.name}}-{{i.date}}</strong>
+        <br><br>{{i.body}}
+        <br><br>
+    {% endfor %}      
+{% else%}
+    <a href='{% url "comments" post.pk %}'>add comment</a> 
+{% endif %}
+</form>
+
+{% endblock %}

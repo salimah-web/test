@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user.is_authenticated %}
+    {% if user.id == post.author.id %}
+    <h1>Are you sure you want to delete this post?</h1>
+    <div class="form-group">
+        <form method="POST">{% csrf_token %}
+            
+            <button class="btn btn-secondary">delete post</button>
+            <a href="{% url 'details' post.pk %}" class="btn btn-secondary"> cancel</a>
+        </form>
+    </div>
+    {% else %}
+    You cannot view this page, login <a href="{% url 'login'  %}">here</a> to access the page
+    {% endif %}
+
+{% else %}
+You cannot view this page, login <a href="{% url 'login'  %}">here</a> to access the page
+
+{% endif %}
+
+
+{% endblock %}

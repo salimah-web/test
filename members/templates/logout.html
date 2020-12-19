@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content%}
+<small>Are you sure you want to log out?</small>
+<a href="{% url 'logout' %}">Yes</a>
+<a href="{% url 'home' %}">No</a>
+{% endblock %}
